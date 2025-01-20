@@ -14,22 +14,23 @@ def load_data():
 df = load_data()
 
 # Sidebar filter options
-st.sidebar.header("Filtro por centro")
+st.sidebar.header("Filtros")
 
 # Filter by column A
-unique_A = df['CENTRO'].unique()
-selected_A = st.sidebar.selectbox('Seleccona centro', unique_A)#, default=unique_A)
+unique_A = sorted(df['ANO_ACADEMICO'].unique())
+selected_A = st.sidebar.multiselect('Estudiantes graduados en', unique_A, default=unique_A)
 
 # Filter data based on selected values of A
-filtered_A_df = df[df['CENTRO'].isin([selected_A])]
+filtered_A_df = df[df['ANO_ACADEMICO'].isin(selected_A)]
 
 # Filter by column B based on the selected A values
-unique_B_for_A = filtered_A_df['PLAN'].unique()
-#selected_B = st.sidebar.multiselect('Select values for B', unique_B_for_A, default=unique_B_for_A)
-selected_B = unique_B_for_A
+unique_B_for_A = filtered_A_df['CENTRO'].unique()
+
+selected_B = st.sidebar.selectbox('Selecciona centro', unique_B_for_A)
+#selected_B = unique_B_for_A
 
 # Further filter data based on selected A and B
-filtered_df = filtered_A_df[filtered_A_df['PLAN'].isin(selected_B)]
+filtered_df = filtered_A_df[filtered_A_df['CENTRO'].isin([selected_B])]
 
 # Show the filtered dataframe in the main panel (optional)
 
