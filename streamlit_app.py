@@ -41,11 +41,12 @@ st.text("(Valores por encima de 0 indican mejores notas en movilidad)")
 con_puntos = st.checkbox("Mostrar todos puntos de estudiantes",value=True)
 
 plt.figure(figsize=(10, 6))
-ax = sns.boxplot(x='PLAN', y='DIFERENCIA', data=filtered_df)
+orden = sorted(set(filtered_df['PLAN']))
+ax = sns.boxplot(x='PLAN', y='DIFERENCIA', data=filtered_df, order=orden)
 if con_puntos:
-    sns.stripplot(x='PLAN', y='DIFERENCIA', data=filtered_df)
+    sns.stripplot(x='PLAN', y='DIFERENCIA', data=filtered_df, order=orden)
 
-nn = ["N=" + str(x) for x in filtered_df['PLAN'].value_counts().values]
+nn = ["N=" + str(x) for x in filtered_df['PLAN'].value_counts().sort_index().values]
 minimo = filtered_df['DIFERENCIA'].min()
 for i,n in enumerate(nn):
   ypos = minimo if i%2==0 else minimo+0.3
