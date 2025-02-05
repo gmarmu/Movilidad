@@ -26,11 +26,20 @@ filtered_A_df = df[df['ANO_ACADEMICO'].isin(selected_A)]
 # Filter by column B based on the selected A values
 unique_B_for_A = filtered_A_df['CENTRO'].unique()
 
-selected_B = st.sidebar.selectbox('Selecciona centro', unique_B_for_A)
+selected_B = st.sidebar.selectbox('Selecciona centro', sorted(unique_B_for_A))
 #selected_B = unique_B_for_A
 
 # Further filter data based on selected A and B
 filtered_df = filtered_A_df[filtered_A_df['CENTRO'].isin([selected_B])]
+grados = st.sidebar.checkbox("Mostrar grados",value=True)
+master = st.sidebar.checkbox("Mostrar master",value=True)
+
+if grados and not master:
+  filtered_A_df = filtered_A_df[~filtered_A_df['PLAN'].str.contains("Máster")]
+elif not grados and master:
+  filtered_A_df = filtered_A_df[filtered_A_df['PLAN'].str.contains("Máster")]
+elif not grados and not master:
+    st.sidebar.error("Seleccione algún tipo de titulación")
 
 # Show the filtered dataframe in the main panel (optional)
 
