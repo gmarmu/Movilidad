@@ -37,8 +37,20 @@ filtered_df = filtered_A_df[filtered_A_df['CENTRO'].isin([selected_B])]
 # Display a boxplot of column C based on the filtered data
 st.header("Diferencias de notas medias en movilidad y UAM")
 st.text("(Valores por encima de 0 indican mejores notas en movilidad)")
+
+con_puntos = st.checkbox("Mostrar todos puntos de estudiantes",value=True)
+
 plt.figure(figsize=(10, 6))
-sns.boxplot(x='PLAN', y='DIFERENCIA', data=filtered_df)
+ax = sns.boxplot(x='PLAN', y='DIFERENCIA', data=filtered_df)
+if con_puntos:
+    sns.stripplot(x='PLAN', y='DIFERENCIA', data=filtered_df)
+
+nn = ["N=" + str(x) for x in filtered_df['PLAN'].value_counts().values]
+minimo = filtered_df['DIFERENCIA'].min()
+for i,n in enumerate(nn):
+  ypos = minimo if i%2==0 else minimo+0.3
+  ax.text(i,ypos,n,horizontalalignment='center',weight='semibold')
+
 plt.title("Boxplot de diferencia de notas medias en movilidad y UAM")
 plt.ylabel("nota media en movilidad - nota media UAM")
 plt.xticks(rotation=90)
