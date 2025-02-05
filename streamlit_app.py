@@ -35,9 +35,9 @@ grados = st.sidebar.checkbox("Mostrar grados",value=True)
 master = st.sidebar.checkbox("Mostrar master",value=True)
 
 if grados and not master:
-  filtered_A_df = filtered_A_df[~filtered_A_df['PLAN'].str.contains("Máster")]
+    filtered_df = filtered_df[~filtered_df['PLAN'].str.contains("Máster")]
 elif not grados and master:
-  filtered_A_df = filtered_A_df[filtered_A_df['PLAN'].str.contains("Máster")]
+    filtered_df = filtered_df[filtered_df['PLAN'].str.contains("Máster")]
 elif not grados and not master:
     st.sidebar.error("Seleccione algún tipo de titulación")
 
